@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class PMRentACarIIServiceCollectionExtension
     {
         /// <summary>
-        /// adding services into the inversion of control container
+        /// extending IServiceCollection and adding more services into the inversion of control container
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IAgentService, AgentService>();
 
             return services;
         }
