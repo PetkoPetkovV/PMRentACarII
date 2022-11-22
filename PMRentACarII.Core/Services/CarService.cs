@@ -19,6 +19,46 @@ namespace PMRentACarII.Core.Services
         {
             repo = _repo;
         }
+
+        public async Task<bool> CategoryExists(int categoryId)
+        {
+            return await repo.AllReadonly<Category>()
+                .AnyAsync(c => c.Id == categoryId);
+        }
+
+        public async Task<int> Create(CarModel model, int agentId)
+        {
+            var car = new Car()
+            {
+                CarNumber = model.CarNumber,
+                CategoryId = model.CategoryId,
+                Description = model.Description,
+                ImageUrl = model.ImageUrl,
+                PricePerDay = model.PricePerDay,
+                SeatCapacity = model.SeatCapacity,
+                Make = model.Make,
+                CarModel = model.CarsModel,
+                AgentId = agentId
+            };
+
+            await repo.AddAsync(car);
+            await repo.SaveChangesAsync();
+
+            return car.Id;
+        }
+
+        public async Task<IEnumerable<CarCategoryViewModel>> GetAllCategories()
+        {
+            return await repo.AllReadonly<Category>()
+                .OrderBy(c => c.Name)
+                .Select(c => new CarCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+        }
+
         /// <summary>
         /// returns last three added cars
         /// </summary>

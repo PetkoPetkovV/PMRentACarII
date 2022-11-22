@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMRentACarII.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PMRentACarII.Infrastructure.Data;
 namespace PMRentACarII.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221117102414_agentIdAdded")]
+    partial class agentIdAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,15 +145,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd51a0b0-de9c-4a13-82a1-e75b4c0b05a9",
+                            ConcurrencyStamp = "396ea52f-b663-4e78-a132-669da4a58d00",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAA38fapfAfEqtMQPBqt1gVc8sRNq7ChF0tna9JSfJYRr7qtr4BslgQYm/ZBXjQqBQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG9aFlcXvZghztXJ2vO2ddLN8DW1URLYM303UxpwZz2WxQCGjAygDtYweagxN86vqg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9542e78-2949-4484-8e16-96cc16b87b11",
+                            SecurityStamp = "a877234c-ff92-4956-a240-66dea23b0d32",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -159,15 +161,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c5093db2-ff4c-4eab-9a37-41d017416027",
+                            ConcurrencyStamp = "d0ca2b55-0332-44c5-94dc-a76c418ea5fe",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDSwhDoFM+CnIrOiYZqS7RUiLNeR4UbPgDCbMnm8JX+MniFu5jztkXq1tqETLiSSDQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE+Xpab9Bc55btsLtj/A4hQXMjV+kEnsNe/YXONzTcZfEwOJdG9ho/+7zDsDN7dK4Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "46ca4012-6730-4c73-99c4-0873aa545526",
+                            SecurityStamp = "eac425d2-ef2f-4d75-bb3c-50db6aef17ba",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -308,11 +310,6 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<string>("CarModel")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
                     b.Property<string>("CarNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -338,6 +335,11 @@ namespace PMRentACarII.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("money");
 
@@ -362,13 +364,13 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 1,
                             Available = true,
-                            CarModel = "Accord",
                             CarNumber = "A3200KC",
                             CategoryId = 5,
                             Description = "A very comfortable and reliable car",
                             DriverId = 1,
                             ImageUrl = "https://imageio.forbes.com/specials-images/imageserve/6310cb2cbb908f077de4f565/0x0.jpg?format=jpg&width=1200",
                             Make = "Honda",
+                            Model = "Accord",
                             PricePerDay = 30.00m,
                             RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             SeatCapacity = 5
@@ -377,13 +379,13 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 2,
                             Available = true,
-                            CarModel = "X3",
                             CarNumber = "A3201KC",
                             CategoryId = 5,
                             Description = "Traditionally, sports sedans have been the vehicles that best projected the spirit of the BMW brand. Not so much anymore.",
                             DriverId = 2,
                             ImageUrl = "https://hips.hearstapps.com/hmg-prod/images/2022-bmw-x3-m40i-108-1650211641.jpg?crop=0.582xw:0.490xh;0.186xw,0.387xh&resize=1200:*",
                             Make = "BMW",
+                            Model = "X3",
                             PricePerDay = 60.00m,
                             SeatCapacity = 5
                         });

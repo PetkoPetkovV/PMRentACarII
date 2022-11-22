@@ -1,0 +1,57 @@
+﻿@model CarModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Make"></label>
+                <input asp-for="Make" class="form-control" placeholder="Car Make...">
+                <span asp-validation-for="Make" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarNumber"></label>
+                <input asp-for="CarNumber" class="form-control" placeholder="Car Number...">
+                <span asp-validation-for="CarNumber" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeatCapacity"></label>
+                <input asp-for="SeatCapacity" class="form-control" placeholder="Title...">
+                <span asp-validation-for="SeatCapacity" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarsModel"></label>
+                <input asp-for="CarsModel" class="form-control" placeholder="Car model...">
+                <span asp-validation-for="CarsModel" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="5 seats..."></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="Your fine URL here...">
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePerDay"></label>
+                <input asp-for="PricePerDay" class="form-control">
+                <span asp-validation-for="PricePerDay" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

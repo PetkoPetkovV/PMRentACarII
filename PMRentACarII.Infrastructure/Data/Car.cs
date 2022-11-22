@@ -32,7 +32,7 @@ namespace PMRentACar.Infrastructure.Data
         /// </summary>
         [Required]
         [StringLength(Constants.Constants.CarModelMaxLength)]
-        public string Model { get; set; } = null!;
+        public string CarModel { get; set; } = null!;
         [Required]
         [StringLength(Constants.Constants.CarDescriptionMaxLength)]
         public string Description { get; set; } = null!;
@@ -77,6 +77,8 @@ namespace PMRentACar.Infrastructure.Data
         public string? RenterId { get; set; }
         [ForeignKey(nameof(RenterId))]
         public IdentityUser? Renter { get; set; }
+
+        public int? AgentId { get; set; }
 
     }
 }

@@ -8,5 +8,7 @@
 
         Task Create(string userId, string phoneNumber, string email);
 
+        Task<int> GetAgentId(string userId);
+
     }
 }

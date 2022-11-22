@@ -24,7 +24,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
             {
                 Id = 1,
                 Make = "Honda",
-                Model = "Accord",
+                CarModel = "Accord",
                 CarNumber = "A3200KC",
                 SeatCapacity = 5,
                 PricePerDay = 30.00M,
@@ -41,7 +41,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
             {
                 Id = 2,
                 Make = "BMW",
-                Model = "X3",
+                CarModel = "X3",
                 CarNumber = "A3201KC",
                 SeatCapacity = 5,
                 PricePerDay = 60.00M,

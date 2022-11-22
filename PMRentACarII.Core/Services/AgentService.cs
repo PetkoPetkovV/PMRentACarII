@@ -37,6 +37,16 @@ namespace PMRentACarII.Core.Services
             return await repo.All<Agent>()
                 .AnyAsync(a => a.UserId == userId);
         }
+        /// <summary>
+        /// if succeed in finding the agent will return his Id, if not - 0(never returns 0 due to checkings made)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<int> GetAgentId(string userId)
+        {
+           return (await repo.AllReadonly<Agent>()
+                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id ?? 0;
+        }
 
         public async Task<bool> UserWithPhoneNumberExists(string phoneNumber)
         {

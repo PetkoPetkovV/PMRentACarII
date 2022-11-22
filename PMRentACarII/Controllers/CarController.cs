@@ -1,12 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PMRentACarII.Core.Contracts;
 using PMRentACarII.Core.Models.Car;
+using PMRentACarII.Extensions;
 
 namespace PMRentACarII.Controllers
 {
     [Authorize]
     public class CarController : Controller
     {
+
+        private readonly ICarService carService;
+        private readonly IAgentService agentService;
+
+        public CarController(
+            ICarService _carService,
+            IAgentService _agentService)
+        {
+            carService = _carService;
+            agentService = _agentService;
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> AllCars()
         {
@@ -29,15 +43,44 @@ namespace PMRentACarII.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View();
+            if (!(await agentService.ExistsById(User.Id())))
+            {
+                return RedirectToAction(nameof(AgentController.Become), "Agent");
+            }
+
+            var model = new CarModel()
+            {
+                Categories = await carService.GetAllCategories()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(CarModel model)
         {
-            int id = 1;
+            if (!(await agentService.ExistsById(User.Id())))
+            {
+                return RedirectToAction(nameof(AgentController.Become), "Agent");
+            }
+            if ((await carService.CategoryExists(model.CategoryId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exists");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await carService.GetAllCategories();
+
+                return View(model);
+            }
+
+            int agentId = await agentService.GetAgentId(User.Id());
+
+            int id = await carService.Create(model, agentId);
 
             return RedirectToAction(nameof(Details), new { id });
         }
