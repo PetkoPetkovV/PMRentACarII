@@ -11,5 +11,14 @@ namespace PMRentACarII.Core.Contracts
 
         Task<int> Create(CarModel model, int agentId);
 
+        Task<CarsViewModel> AllCars(
+            string? category = null,
+            string? searchTerm = null,
+            CarSorting sorting = CarSorting.Newest,
+            int currentPage = 1,
+            int carsPerPage = 1);
+
+        Task<IEnumerable<string>> AllCategoriesNames();
+
     }
 }

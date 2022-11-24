@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PMRentACarII.Core.Models.Car
+﻿namespace PMRentACarII.Core.Models.Car
 {
     public class CarsViewModel
     {
+        public int TotalCars { get; set; }
+
+        public IEnumerable<CarServiceViewModel> Cars { get; set; } = new List<CarServiceViewModel>();
 
     }
 }

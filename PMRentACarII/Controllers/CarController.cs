@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PMRentACarII.Core.Contracts;
 using PMRentACarII.Core.Models.Car;
 using PMRentACarII.Extensions;
+using PMRentACarII.Models;
 
 namespace PMRentACarII.Controllers
 {
@@ -22,11 +23,20 @@ namespace PMRentACarII.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> AllCars()
+        public async Task<IActionResult> AllCars([FromQuery]AllCarsViewModel query)
         {
-            var model = new CarsViewModel();
+            var result = await carService.AllCars(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllCarsViewModel.CarsPerPage);
 
-            return View(model);
+            query.TotalCarsCount = result.TotalCars;
+            query.Categories = await carService.AllCategoriesNames();
+            query.Cars = result.Cars;
+
+            return View(query);
         }
 
         public async Task<IActionResult> Mine()

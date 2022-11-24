@@ -19,6 +19,7 @@ namespace PMRentACarII.Core.Models.Car
         public string Make { get; set; } = null!;
         [Required]
         [StringLength(Constants.CarModelMaxLength, MinimumLength = Constants.CarModelMinLength)]
+        [Display(Name = "Car model")]
         public string CarsModel { get; set; } = null!;
         [Required]
         [StringLength(Constants.CarDescriptionMaxLength)]
@@ -29,6 +30,7 @@ namespace PMRentACarII.Core.Models.Car
         public decimal PricePerDay { get; set; }
         [Required]
         [Range(2, 52)]
+        [Display(Name = "Number of seats")]
         public int SeatCapacity { get; set; }
         [Required]
         [Display(Name = "Image URL")]

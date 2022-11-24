@@ -20,6 +20,63 @@ namespace PMRentACarII.Core.Services
             repo = _repo;
         }
 
+        public async Task<CarsViewModel> AllCars(string? category = null, string? searchTerm = null, CarSorting sorting = CarSorting.Newest, int currentPage = 1, int carsPerPage = 1)
+        {
+            var result = new CarsViewModel();
+
+            var cars = repo.AllReadonly<Car>();
+
+            if (string.IsNullOrEmpty(category) == false)
+            {
+                cars = cars
+                    .Where(c => c.Category.Name == category);
+            }
+
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+                cars = cars
+                    .Where(c => EF.Functions.Like(c.Make, searchTerm) ||
+                    EF.Functions.Like(c.CarModel, searchTerm) ||
+                    EF.Functions.Like(c.Description.ToLower(), searchTerm));
+            }
+
+            cars = sorting switch
+            {
+                CarSorting.Price => cars
+                .OrderBy(c => c.PricePerDay),
+                CarSorting.NotRented => cars
+                .OrderBy(c => c.RenterId),
+                _ => cars.OrderByDescending(c => c.Id)
+            };
+
+            result.Cars = await cars
+                .Skip((currentPage - 1) * carsPerPage)
+                .Take(carsPerPage)
+                .Select(c => new CarServiceViewModel()
+                {
+                    Make = c.Make,
+                    CarsModel = c.CarModel,
+                    ImageUrl = c.ImageUrl,
+                    PricePerDay = c.PricePerDay,
+                    IsRented = c.Available,
+                    Id = c.Id
+                })
+                .ToListAsync();
+
+            result.TotalCars = await cars.CountAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> AllCategoriesNames()
+        {
+            return await repo.AllReadonly<Category>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<bool> CategoryExists(int categoryId)
         {
             return await repo.AllReadonly<Category>()
