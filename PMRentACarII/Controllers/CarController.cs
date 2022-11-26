@@ -41,9 +41,21 @@ namespace PMRentACarII.Controllers
 
         public async Task<IActionResult> Mine()
         {
-            var model = new CarsViewModel();
+            IEnumerable<CarServiceViewModel> myCars;
 
-            return View(model);
+            var userId = User.Id();
+
+            if (await agentService.ExistsById(userId))
+            {
+                int agentId = await agentService.GetAgentId(userId);
+                myCars = await carService.AllCarsByAgentId(agentId);
+            }
+            else
+            {
+                myCars = await carService.AllCarsByUserId(userId);
+            }
+
+            return View(myCars);
         }
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)

@@ -69,6 +69,38 @@ namespace PMRentACarII.Core.Services
             return result;
         }
 
+        public async Task<IEnumerable<CarServiceViewModel>> AllCarsByAgentId(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                .Where(Car => Car.AgentId == id)
+                .Select(c => new CarServiceViewModel() 
+                {
+                    CarsModel = c.CarModel,
+                    Make = c.Make,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    PricePerDay = c.PricePerDay,
+                    IsRented = c.Available
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CarServiceViewModel>> AllCarsByUserId(string userId)
+        {
+            return await repo.AllReadonly<Car>()
+                .Where(Car => Car.RenterId == userId)
+                .Select(c => new CarServiceViewModel()
+                {
+                    CarsModel = c.CarModel,
+                    Make = c.Make,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    PricePerDay = c.PricePerDay,
+                    IsRented = c.Available
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<string>> AllCategoriesNames()
         {
             return await repo.AllReadonly<Category>()

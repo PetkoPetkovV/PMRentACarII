@@ -1,4 +1,4 @@
-﻿@model CarsViewModel
+﻿@model IEnumerable<CarServiceViewModel>
 
 @{
     ViewBag.Title = "My Cars";
@@ -6,3 +6,13 @@
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
+@if(Model.Any())
+{
+    <div class="row">
+        @foreach(var car in Model)
+        {
+            <partial name = "_CarPartial" model="@car" />
+        }
+    </div>
+}
