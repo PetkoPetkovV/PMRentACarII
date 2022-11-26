@@ -33,7 +33,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
                 RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 DriverId = 1,
                 CategoryId = 5,
-                Description = "A very comfortable and reliable car"
+                Description = "A very comfortable and reliable car",
             };
             cars.Add(car);
 

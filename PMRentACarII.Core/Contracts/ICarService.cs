@@ -27,5 +27,11 @@ namespace PMRentACarII.Core.Contracts
 
         Task<bool> Exists(int id);
 
+        Task Edit(int carId, CarModel model);
+
+        Task<bool> HasAgentWithId(int carId, string currentUserId);
+
+        Task<int> GetCarCategoryId(int carId);
+
     }
 }

@@ -112,16 +112,74 @@ namespace PMRentACarII.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var model = new CarModel();
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            if (await carService.HasAgentWithId(id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+            }
+
+            var car = await carService.CarDetailsById(id);
+            var categoryId = await carService.GetCarCategoryId(id);
+
+
+
+
+            var model = new CarModel()
+            {
+                CarsModel = car.CarsModel,
+                Make = car.Make,
+                Description = car.Description,
+                CategoryId = categoryId,
+                ImageUrl = car.ImageUrl,
+                PricePerDay = car.PricePerDay,
+                SeatCapacity = car.SeatCapacity,
+                CarNumber = car.CarNumber,
+                Id = id,
+                Categories = await carService.GetAllCategories()
+            };
 
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, CarModel model)
+        public async Task<IActionResult> Edit(CarModel model)
         {
-            return RedirectToAction(nameof(Details), new { id });
+            if (await carService.Exists(model.Id) == false)
+            {
+                model.Categories = await carService.GetAllCategories();
+                ModelState.AddModelError("", "Car does not exist");
+
+                return View();
+            }
+
+            if (await carService.HasAgentWithId(model.Id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+            }
+
+            if (await carService.CategoryExists(model.CategoryId) == false)
+            {
+                model.Categories = await carService.GetAllCategories();
+                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await carService.GetAllCategories();
+
+                return View(model);
+            }
+
+            await carService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(Details), new { model.Id });
         }
 
         [HttpPost]

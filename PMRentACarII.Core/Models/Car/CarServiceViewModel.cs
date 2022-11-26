@@ -10,8 +10,7 @@ namespace PMRentACarII.Core.Models.Car
 {
     public class CarServiceViewModel
     {
-        public int Id { get; init; }
-
+        public int Id { get; set; }
         public string Make { get; init; } = null!;
         [Display(Name = "Car model")]
         public string CarsModel { get; init; } = null!;
@@ -22,6 +21,12 @@ namespace PMRentACarII.Core.Models.Car
         [Display(Name = "Is Rented")]
         public bool IsRented { get; init; }
 
+        [Display(Name = "Car plate number")]
+        public string CarNumber { get; set; } = null!;
 
+        public string Description { get; set; } = null!;
+
+        [Display(Name = "Number of seats")]
+        public int SeatCapacity { get; set; }
     }
 }

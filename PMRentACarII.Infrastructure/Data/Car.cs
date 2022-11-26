@@ -79,6 +79,8 @@ namespace PMRentACar.Infrastructure.Data
         public IdentityUser? Renter { get; set; }
 
         public int? AgentId { get; set; }
+        [ForeignKey(nameof(AgentId))]
+        public Agent? Agent { get; set; }
 
     }
 }

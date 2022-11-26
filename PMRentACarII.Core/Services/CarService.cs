@@ -154,6 +154,24 @@ namespace PMRentACarII.Core.Services
             return car.Id;
         }
 
+        public async Task Edit(int carId, CarModel model)
+        {
+            
+            var car = await repo.GetByIdAsync<Car>(carId); // finds the DbSet and uses FindAsync
+
+            car.CarNumber = model.CarNumber;
+            car.CategoryId = model.CategoryId;
+            car.Description = model.Description;
+            car.ImageUrl = model.ImageUrl;
+            car.PricePerDay = model.PricePerDay;
+            car.SeatCapacity = model.SeatCapacity;
+            car.Make = model.Make;
+            car.CarModel = model.CarsModel;
+            car.CarNumber = model.CarNumber;
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Car>()
@@ -170,6 +188,29 @@ namespace PMRentACarII.Core.Services
                     Name = c.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<int> GetCarCategoryId(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).CategoryId; // returns directly the category
+        }
+
+        public async Task<bool> HasAgentWithId(int carId, string currentUserId)
+        {
+            bool result = false;
+
+            var car = await repo.AllReadonly<Car>()
+                .Where(c => c.Id == carId)
+                .Include(c => c.Agent)
+                .FirstOrDefaultAsync();
+
+            if (car?.AgentId != null && car?.Agent?.UserId == currentUserId)
+            {
+                result = true;
+            }
+
+            return result;
+
         }
 
         /// <summary>

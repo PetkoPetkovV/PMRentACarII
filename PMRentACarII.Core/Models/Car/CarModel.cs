@@ -10,6 +10,8 @@ namespace PMRentACarII.Core.Models.Car
 {
     public class CarModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(Constants.CarNumberMaxLength, MinimumLength = Constants.CarNumberMinLength)]
         [Display(Name = "Car plate number")]
