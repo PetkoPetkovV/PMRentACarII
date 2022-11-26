@@ -109,6 +109,24 @@ namespace PMRentACarII.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<CarDetailsViewModel> CarDetailsById(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                .Where(c => c.Id == id)
+                .Select(c => new CarDetailsViewModel()
+                {
+                    CarsModel = c.CarModel,
+                    Make = c.Make,
+                    Category = c.Category.Name,
+                    Description = c.Description,
+                    PricePerDay = c.PricePerDay,
+                    Id = id,
+                    ImageUrl = c.ImageUrl,
+                    IsRented = c.Available,
+                })
+                .FirstAsync();
+        }
+
         public async Task<bool> CategoryExists(int categoryId)
         {
             return await repo.AllReadonly<Category>()
@@ -134,6 +152,12 @@ namespace PMRentACarII.Core.Services
             await repo.SaveChangesAsync();
 
             return car.Id;
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                 .AnyAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<CarCategoryViewModel>> GetAllCategories()

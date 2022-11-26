@@ -60,7 +60,12 @@ namespace PMRentACarII.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new CarDetailsViewModel();
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            var model = await carService.CarDetailsById(id);
 
             return View(model);
         }

@@ -23,5 +23,9 @@ namespace PMRentACarII.Core.Contracts
         Task<IEnumerable<CarServiceViewModel>> AllCarsByAgentId(int id);
         Task<IEnumerable<CarServiceViewModel>> AllCarsByUserId(string userId);
 
+        Task<CarDetailsViewModel> CarDetailsById(int id);
+
+        Task<bool> Exists(int id);
+
     }
 }
