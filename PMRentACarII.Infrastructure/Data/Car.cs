@@ -57,7 +57,7 @@ namespace PMRentACar.Infrastructure.Data
         /// checking if the car is already rented or not
         /// </summary>
         [Required]
-        public bool Available { get; set; }
+        public bool NotAvailable { get; set; } = false;
         /// <summary>
         /// driver's Id(optional)
         /// </summary>

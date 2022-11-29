@@ -19,7 +19,7 @@ namespace PMRentACarII.Core.Models.Car
         [Display(Name = "Price per day")]
         public decimal PricePerDay { get; init; }
         [Display(Name = "Is Rented")]
-        public bool IsRented { get; init; }
+        public bool IsRented { get; init; } = false;
 
         [Display(Name = "Car plate number")]
         public string CarNumber { get; set; } = null!;

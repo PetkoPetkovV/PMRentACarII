@@ -61,7 +61,7 @@ namespace PMRentACarII.Core.Services
                     CarsModel = c.CarModel,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.Available,
+                    IsRented = c.NotAvailable,
                     Id = c.Id
                 })
                 .ToListAsync();
@@ -74,8 +74,8 @@ namespace PMRentACarII.Core.Services
         public async Task<IEnumerable<CarServiceViewModel>> AllCarsByAgentId(int id)
         {
             return await repo.AllReadonly<Car>()
-                .Where(Car => Car.AgentId == id)
                 .Where(c => c.IsActive)
+                .Where(Car => Car.AgentId == id)
                 .Select(c => new CarServiceViewModel() 
                 {
                     CarsModel = c.CarModel,
@@ -83,7 +83,7 @@ namespace PMRentACarII.Core.Services
                     Id = c.Id,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.Available
+                    IsRented = c.NotAvailable
                 })
                 .ToListAsync();
         }
@@ -100,7 +100,7 @@ namespace PMRentACarII.Core.Services
                     Id = c.Id,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.Available
+                    IsRented = c.NotAvailable
                 })
                 .ToListAsync();
         }
@@ -127,7 +127,7 @@ namespace PMRentACarII.Core.Services
                     PricePerDay = c.PricePerDay,
                     Id = id,
                     ImageUrl = c.ImageUrl,
-                    IsRented = c.Available,
+                    IsRented = c.NotAvailable,
                 })
                 .FirstAsync();
         }
@@ -142,6 +142,7 @@ namespace PMRentACarII.Core.Services
         {
             var car = new Car()
             {
+                Id = model.Id,
                 CarNumber = model.CarNumber,
                 CategoryId = model.CategoryId,
                 Description = model.Description,

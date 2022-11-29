@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMRentACarII.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PMRentACarII.Infrastructure.Data;
 namespace PMRentACarII.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221129095820_AvailableTrue")]
+    partial class AvailableTrue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,15 +145,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "94f31264-c732-4e03-9060-2999a4b8cf7b",
+                            ConcurrencyStamp = "d5929534-b21c-4ac3-bfbe-9d38c24c6395",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAENnrX2dVHqkBLs7xGrxlNGTeuEnpMuAF+rpKA6BgRnqhXk2v5+RftRD2/ZkSW3j82g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJUgxM4iJ+w5uQQJ9bLVM84Hi3+ExBukA3Jf81dBhBjJGErkH1m9yE+WIwwLv2XXSg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6e52da5a-a806-480c-a9e6-9b50ee842a41",
+                            SecurityStamp = "90296209-d8a0-4442-a6ca-b976ad988714",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -159,15 +161,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7f33e84-377b-4f8e-9308-258b1b453c9a",
+                            ConcurrencyStamp = "4bd2d36b-bd89-4a3d-beb4-e24b51c84e37",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPlnVOjW/rsN1vkFYDw9UpsotDPt5nLzJTxyjI8pzoqmbY8t7JLxb1TDgGWnoOHqQA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB3ItHh4sEjWCNAGJXK94WfWR2wexvqeSyothNOMFvrx1dsCD4DpsqdKvjvu63bVNw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "139a0780-e565-447d-8f2b-fbece967f033",
+                            SecurityStamp = "05cb5d99-f9d0-4bae-af72-97b82f81ff06",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -305,6 +307,9 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<int?>("AgentId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
+
                     b.Property<string>("CarModel")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -338,9 +343,6 @@ namespace PMRentACarII.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("NotAvailable")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("money");
 
@@ -366,6 +368,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            Available = true,
                             CarModel = "Accord",
                             CarNumber = "A3200KC",
                             CategoryId = 5,
@@ -374,7 +377,6 @@ namespace PMRentACarII.Infrastructure.Migrations
                             ImageUrl = "https://imageio.forbes.com/specials-images/imageserve/6310cb2cbb908f077de4f565/0x0.jpg?format=jpg&width=1200",
                             IsActive = true,
                             Make = "Honda",
-                            NotAvailable = false,
                             PricePerDay = 30.00m,
                             RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             SeatCapacity = 5
@@ -382,6 +384,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
+                            Available = true,
                             CarModel = "X3",
                             CarNumber = "A3201KC",
                             CategoryId = 5,
@@ -390,7 +393,6 @@ namespace PMRentACarII.Infrastructure.Migrations
                             ImageUrl = "https://hips.hearstapps.com/hmg-prod/images/2022-bmw-x3-m40i-108-1650211641.jpg?crop=0.582xw:0.490xh;0.186xw,0.387xh&resize=1200:*",
                             IsActive = true,
                             Make = "BMW",
-                            NotAvailable = false,
                             PricePerDay = 60.00m,
                             SeatCapacity = 5
                         });

@@ -121,7 +121,7 @@ namespace PMRentACarII.Controllers
 
             if (await carService.HasAgentWithId(id, User.Id()) == false)
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             var car = await carService.CarDetailsById(id);
@@ -151,7 +151,7 @@ namespace PMRentACarII.Controllers
         {
             if (id != model.Id)
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if (await carService.Exists(model.Id) == false)
@@ -164,7 +164,7 @@ namespace PMRentACarII.Controllers
 
             if (await carService.HasAgentWithId(model.Id, User.Id()) == false)
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if (await carService.CategoryExists(model.CategoryId) == false)
@@ -186,10 +186,45 @@ namespace PMRentACarII.Controllers
 
             return RedirectToAction(nameof(Details), new { model.Id });
         }
-
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            if (await carService.HasAgentWithId(id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var car = await carService.CarDetailsById(id);
+            var model = new CarDeletingViewModel()
+            {
+                Make = car.Make,
+                CarsModel = car.CarsModel,
+                ImageUrl = car.ImageUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, CarDeletingViewModel model)
+        {
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            if (await carService.HasAgentWithId(id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await carService.Delete(id);
+
             return RedirectToAction(nameof(AllCars));
         }
 
