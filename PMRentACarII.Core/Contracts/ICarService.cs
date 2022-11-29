@@ -35,5 +35,11 @@ namespace PMRentACarII.Core.Contracts
 
         Task Delete(int id);
 
+        Task<bool> IsRented(int carId);
+
+        Task<bool> IsRentedByUserWithId(int carId, string currentUserId);
+
+        Task Rent(int carId, string currentUserId);
+
     }
 }

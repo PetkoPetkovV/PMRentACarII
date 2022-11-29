@@ -1,4 +1,5 @@
 ﻿using PMRentACarII.Core.Contracts;
+using PMRentACarII.Core.Exceptions;
 using PMRentACarII.Core.Services;
 using PMRentACarII.Infrastructure.Data.Common;
 
@@ -16,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IGuard, Guard>();
 
             return services;
         }

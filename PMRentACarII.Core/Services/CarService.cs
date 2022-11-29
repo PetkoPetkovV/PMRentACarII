@@ -228,6 +228,28 @@ namespace PMRentACarII.Core.Services
 
         }
 
+        public async Task<bool> IsRented(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).NotAvailable == true;
+        }
+
+        public async Task<bool> IsRentedByUserWithId(int carId, string currentUserId)
+        {
+            bool result = false;
+
+            var car = await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
+                .Where(c => c.Id == carId)
+                .FirstOrDefaultAsync();
+
+            if (car != null && car.RenterId == currentUserId)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// returns last three added cars
         /// </summary>
@@ -246,6 +268,23 @@ namespace PMRentACarII.Core.Services
                 })
                 .Take(3)
                 .ToListAsync();
+        }
+
+        public async Task Rent(int carId, string currentUserId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+
+            if (car != null && car.NotAvailable == true)
+            {
+                throw new ArgumentException("This car is already rented!");
+            }
+
+            if (true)
+            {
+
+            }
+
+            car.NotAvailable = true;
         }
     }
 }
