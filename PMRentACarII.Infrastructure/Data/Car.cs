@@ -82,5 +82,8 @@ namespace PMRentACar.Infrastructure.Data
         [ForeignKey(nameof(AgentId))]
         public Agent? Agent { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
+
     }
 }

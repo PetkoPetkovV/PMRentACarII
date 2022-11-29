@@ -24,7 +24,9 @@ namespace PMRentACarII.Core.Services
         {
             var result = new CarsViewModel();
 
-            var cars = repo.AllReadonly<Car>();
+            var cars = repo.AllReadonly<Car>()
+                .Where(c => c.IsActive);
+
 
             if (string.IsNullOrEmpty(category) == false)
             {
@@ -73,6 +75,7 @@ namespace PMRentACarII.Core.Services
         {
             return await repo.AllReadonly<Car>()
                 .Where(Car => Car.AgentId == id)
+                .Where(c => c.IsActive)
                 .Select(c => new CarServiceViewModel() 
                 {
                     CarsModel = c.CarModel,
@@ -89,6 +92,7 @@ namespace PMRentACarII.Core.Services
         {
             return await repo.AllReadonly<Car>()
                 .Where(Car => Car.RenterId == userId)
+                .Where(c => c.IsActive)
                 .Select(c => new CarServiceViewModel()
                 {
                     CarsModel = c.CarModel,
@@ -112,6 +116,7 @@ namespace PMRentACarII.Core.Services
         public async Task<CarDetailsViewModel> CarDetailsById(int id)
         {
             return await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
                 .Where(c => c.Id == id)
                 .Select(c => new CarDetailsViewModel()
                 {
@@ -154,6 +159,14 @@ namespace PMRentACarII.Core.Services
             return car.Id;
         }
 
+        public async Task Delete(int carId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+            car.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task Edit(int carId, CarModel model)
         {
             
@@ -175,7 +188,7 @@ namespace PMRentACarII.Core.Services
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Car>()
-                 .AnyAsync(c => c.Id == id);
+                 .AnyAsync(c => c.Id == id && c.IsActive);
         }
 
         public async Task<IEnumerable<CarCategoryViewModel>> GetAllCategories()
@@ -200,6 +213,7 @@ namespace PMRentACarII.Core.Services
             bool result = false;
 
             var car = await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
                 .Where(c => c.Id == carId)
                 .Include(c => c.Agent)
                 .FirstOrDefaultAsync();
@@ -221,6 +235,7 @@ namespace PMRentACarII.Core.Services
         public async Task<IEnumerable<CarHomeModel>> NewestCars()
         {
             return await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
                 .OrderByDescending(c => c.Id)
                 .Select(c => new CarHomeModel()
                 {

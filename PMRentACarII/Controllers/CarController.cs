@@ -147,8 +147,13 @@ namespace PMRentACarII.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(CarModel model)
+        public async Task<IActionResult> Edit(int id, CarModel model)
         {
+            if (id != model.Id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "identity" });
+            }
+
             if (await carService.Exists(model.Id) == false)
             {
                 model.Categories = await carService.GetAllCategories();

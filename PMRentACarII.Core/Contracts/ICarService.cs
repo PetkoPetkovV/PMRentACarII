@@ -33,5 +33,7 @@ namespace PMRentACarII.Core.Contracts
 
         Task<int> GetCarCategoryId(int carId);
 
+        Task Delete(int carId);
+
     }
 }
