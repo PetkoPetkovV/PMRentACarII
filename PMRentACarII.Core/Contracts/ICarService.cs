@@ -41,5 +41,7 @@ namespace PMRentACarII.Core.Contracts
 
         Task Rent(int carId, string currentUserId);
 
+        Task Return(int carId);
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PMRentACar.Infrastructure.Data;
 using PMRentACarII.Core.Contracts;
+using PMRentACarII.Core.Exceptions;
 using PMRentACarII.Core.Models.Car;
 using PMRentACarII.Infrastructure.Data.Common;
 using System;
@@ -14,10 +15,13 @@ namespace PMRentACarII.Core.Services
     public class CarService : ICarService
     {
         private readonly IRepository repo;
-
-        public CarService(IRepository _repo)
+        private readonly IGuard guard;
+        public CarService(
+            IRepository _repo, 
+            IGuard _guard)
         {
             repo = _repo;
+            guard = _guard;
         }
 
         public async Task<CarsViewModel> AllCars(string? category = null, string? searchTerm = null, CarSorting sorting = CarSorting.Newest, int currentPage = 1, int carsPerPage = 1)
@@ -61,7 +65,7 @@ namespace PMRentACarII.Core.Services
                     CarsModel = c.CarModel,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.NotAvailable,
+                    IsRented = c.RenterId != null,
                     Id = c.Id
                 })
                 .ToListAsync();
@@ -83,7 +87,7 @@ namespace PMRentACarII.Core.Services
                     Id = c.Id,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.NotAvailable
+                    IsRented = c.RenterId != null
                 })
                 .ToListAsync();
         }
@@ -100,7 +104,7 @@ namespace PMRentACarII.Core.Services
                     Id = c.Id,
                     ImageUrl = c.ImageUrl,
                     PricePerDay = c.PricePerDay,
-                    IsRented = c.NotAvailable
+                    IsRented = c.RenterId != null
                 })
                 .ToListAsync();
         }
@@ -127,7 +131,7 @@ namespace PMRentACarII.Core.Services
                     PricePerDay = c.PricePerDay,
                     Id = id,
                     ImageUrl = c.ImageUrl,
-                    IsRented = c.NotAvailable,
+                    IsRented = c.RenterId != null
                 })
                 .FirstAsync();
         }
@@ -230,7 +234,7 @@ namespace PMRentACarII.Core.Services
 
         public async Task<bool> IsRented(int carId)
         {
-            return (await repo.GetByIdAsync<Car>(carId)).NotAvailable == true;
+            return (await repo.GetByIdAsync<Car>(carId)).RenterId != null;
         }
 
         public async Task<bool> IsRentedByUserWithId(int carId, string currentUserId)
@@ -274,17 +278,26 @@ namespace PMRentACarII.Core.Services
         {
             var car = await repo.GetByIdAsync<Car>(carId);
 
-            if (car != null && car.NotAvailable == true)
+            if (car != null && car.RenterId != null)
             {
                 throw new ArgumentException("This car is already rented!");
             }
 
-            if (true)
-            {
+            guard.AgainstNull(car, "Car cannot be found.");
 
-            }
+            car.RenterId = currentUserId;
 
-            car.NotAvailable = true;
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task Return(int carId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+
+            guard.AgainstNull(car, "Car cannot be found");
+
+            car.RenterId = null;
+            await repo.SaveChangesAsync();
         }
     }
 }

@@ -231,12 +231,41 @@ namespace PMRentACarII.Controllers
         [HttpPost]
         public async Task<IActionResult> Rent(int id)
         {
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            if (await agentService.ExistsById(User.Id()))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await carService.IsRented(id))
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            await carService.Rent(id, User.Id());
+
             return RedirectToAction(nameof(Mine));
         }
 
         [HttpPost]
         public async Task<IActionResult> Return(int id)
         {
+            if (await carService.Exists(id) == false || (await carService.IsRented(id)) == false)
+            {
+                return RedirectToAction(nameof(AllCars));
+            }
+
+            if (await carService.IsRentedByUserWithId(id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await carService.Return(id);
+
             return RedirectToAction(nameof(Mine));
         }
     }
