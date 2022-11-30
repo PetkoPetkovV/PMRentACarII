@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IGuard, Guard>();
+            services.AddScoped<IDriverService, DriverService>();
 
             return services;
         }
