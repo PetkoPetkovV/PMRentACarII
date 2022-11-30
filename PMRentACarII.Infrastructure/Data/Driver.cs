@@ -1,4 +1,5 @@
-﻿using PMRentACar.Infrastructure.Data.Constants;
+﻿using Microsoft.AspNetCore.Identity;
+using PMRentACar.Infrastructure.Data.Constants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -43,8 +44,10 @@ namespace PMRentACar.Infrastructure.Data
         /// <summary>
         /// checking if the driver is already taken
         /// </summary>
-        [Required]
-        public bool Available { get; set; }
+
+        public string? HirerId { get; set; }
+        [ForeignKey(nameof(HirerId))]
+        public IdentityUser? Hirer { get; set; }
 
     }
 }

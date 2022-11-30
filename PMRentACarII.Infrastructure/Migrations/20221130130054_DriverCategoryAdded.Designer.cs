@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMRentACarII.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PMRentACarII.Infrastructure.Data;
 namespace PMRentACarII.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221130130054_DriverCategoryAdded")]
+    partial class DriverCategoryAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,15 +145,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3bfbecae-9ef5-4d37-8337-5ce1f095cba6",
+                            ConcurrencyStamp = "f3ea707f-b658-42e8-af63-282c6b8c43d0",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPgR2wikeK6vpljDvuhGBXfHBlFf7xE25zH3lJqjEusAAyggELdm/Lueg5XDwQxw9A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELIsmq5ReF+ETyIsHto1mY1wTpzAsvmrKvSMW2WyPaBnpZ2P3cQa79kd7pvNA0wPYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af4ae051-99a5-4588-9686-f79139511a05",
+                            SecurityStamp = "cc56d58e-9954-4f49-83f8-44f904eb1603",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -159,15 +161,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "87462914-2f37-4ab9-8bed-188e2187e6d1",
+                            ConcurrencyStamp = "4190db9d-e4b6-42bd-8b36-87073091c801",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOWV76mROQ8aMaMK2sAcbMDl4JRlO6MSPOQpbB3Kb4sT5+ahJY8U3NMszwMgZb0qdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMVg9/cI6hrQLgVwnL4wM4UM1nNsun7f5CiT6UXwqAsjh62YzZnAP/dAB41zvCghMA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "462de149-14fa-4b9c-82ac-331fb81da22e",
+                            SecurityStamp = "6901d660-cf1c-43eb-9e42-f1c69d713953",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -447,6 +449,9 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
+
                     b.Property<string>("DriverCategory")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -477,6 +482,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 1,
                             Age = 30,
+                            Available = true,
                             DriverCategory = "Expert",
                             DriverPrice = 30.00m,
                             Name = "Hose",
@@ -486,6 +492,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 2,
                             Age = 32,
+                            Available = true,
                             DriverCategory = "Professional Driver",
                             DriverPrice = 60.00m,
                             Name = "Peter",
@@ -495,6 +502,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 3,
                             Age = 29,
+                            Available = true,
                             DriverCategory = "Lad",
                             DriverPrice = 20.00m,
                             Name = "Mark",

@@ -23,7 +23,6 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
             {
                 Id = 1,
                 Age = 30,
-                Available = true,
                 DriverCategory = "Expert",
                 DriverPrice = 30.00M,
                 Name = "Hose",
@@ -35,11 +34,10 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
             {
                 Id = 2,
                 Age = 32,
-                Available = true,
                 DriverCategory = "Professional Driver",
                 DriverPrice = 60.00M,
                 Name = "Peter",
-                YearsOfExperience = 11
+                YearsOfExperience = 11,
             };
             drivers.Add(drver);
 
@@ -47,7 +45,6 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
             {
                 Id = 3,
                 Age = 29,
-                Available = true,
                 DriverCategory = "Lad",
                 DriverPrice = 20.00M,
                 Name = "Mark",

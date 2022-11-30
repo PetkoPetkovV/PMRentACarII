@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMRentACarII.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PMRentACarII.Infrastructure.Data;
 namespace PMRentACarII.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221130112030_DriverAvailableAddedTrue")]
+    partial class DriverAvailableAddedTrue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,15 +145,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3bfbecae-9ef5-4d37-8337-5ce1f095cba6",
+                            ConcurrencyStamp = "6f85dbbf-8700-4171-8354-6f34bcd39a74",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPgR2wikeK6vpljDvuhGBXfHBlFf7xE25zH3lJqjEusAAyggELdm/Lueg5XDwQxw9A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIEEJ033ccDZjhp1mjsvOgjuejbk4XFhpDX+0C4+k6SNSrTtbTY7XWbcMBHaLqhEQg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af4ae051-99a5-4588-9686-f79139511a05",
+                            SecurityStamp = "f0c77410-3879-4c3e-b8cf-1a6b9c13e462",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -159,15 +161,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "87462914-2f37-4ab9-8bed-188e2187e6d1",
+                            ConcurrencyStamp = "47aef1eb-d309-413b-a97d-951b872acac2",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOWV76mROQ8aMaMK2sAcbMDl4JRlO6MSPOQpbB3Kb4sT5+ahJY8U3NMszwMgZb0qdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF/vx1wX36Nx+TAC8pha0bXEvswNkfKhS0HJ1FjcEushKNRhQmqrYEfFxR9VThA3/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "462de149-14fa-4b9c-82ac-331fb81da22e",
+                            SecurityStamp = "f636ae9f-bf28-4b78-bc16-b498ebc0f78d",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -447,6 +449,9 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
+
                     b.Property<string>("DriverCategory")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -454,9 +459,6 @@ namespace PMRentACarII.Infrastructure.Migrations
 
                     b.Property<decimal>("DriverPrice")
                         .HasColumnType("money");
-
-                    b.Property<string>("HirerId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -468,8 +470,6 @@ namespace PMRentACarII.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HirerId");
-
                     b.ToTable("Drivers");
 
                     b.HasData(
@@ -477,6 +477,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 1,
                             Age = 30,
+                            Available = true,
                             DriverCategory = "Expert",
                             DriverPrice = 30.00m,
                             Name = "Hose",
@@ -486,6 +487,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 2,
                             Age = 32,
+                            Available = true,
                             DriverCategory = "Professional Driver",
                             DriverPrice = 60.00m,
                             Name = "Peter",
@@ -495,6 +497,7 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 3,
                             Age = 29,
+                            Available = true,
                             DriverCategory = "Lad",
                             DriverPrice = 20.00m,
                             Name = "Mark",
@@ -655,15 +658,6 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Navigation("Driver");
 
                     b.Navigation("Renter");
-                });
-
-            modelBuilder.Entity("PMRentACar.Infrastructure.Data.Driver", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Hirer")
-                        .WithMany()
-                        .HasForeignKey("HirerId");
-
-                    b.Navigation("Hirer");
                 });
 
             modelBuilder.Entity("PMRentACar.Infrastructure.Data.Rent", b =>
