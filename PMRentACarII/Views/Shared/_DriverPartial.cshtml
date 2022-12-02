@@ -12,6 +12,13 @@
             </h6>
             <h6>(@(Model.IsHired ? "Hired" : "Available"))</h6>
             <br />
+             @if (!Model.IsHired)
+                {
+                    <form class="input-group-sm" asp-controller="Driver"
+                  asp-action="Hire" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Hire" />
+                    </form>
+                }
         </div>
     </div>
 </div>
