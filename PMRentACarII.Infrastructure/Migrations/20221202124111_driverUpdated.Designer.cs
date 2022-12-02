@@ -12,8 +12,8 @@ using PMRentACarII.Infrastructure.Data;
 namespace PMRentACarII.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221117102414_agentIdAdded")]
-    partial class agentIdAdded
+    [Migration("20221202124111_driverUpdated")]
+    partial class driverUpdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,15 +145,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "396ea52f-b663-4e78-a132-669da4a58d00",
+                            ConcurrencyStamp = "e2812d74-a97a-4160-84f3-4c9b59865d67",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG9aFlcXvZghztXJ2vO2ddLN8DW1URLYM303UxpwZz2WxQCGjAygDtYweagxN86vqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKCYMXyZEHjywdal0/CXXzGdoZPcs30s2VsXB1Ek8gCXUkFdf8D5uu474j4HkYGLMA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a877234c-ff92-4956-a240-66dea23b0d32",
+                            SecurityStamp = "9e2a185c-1e08-474d-9306-9cd327a172d0",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -161,15 +161,15 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d0ca2b55-0332-44c5-94dc-a76c418ea5fe",
+                            ConcurrencyStamp = "8159498a-e08d-4521-969c-b0e52dc84786",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE+Xpab9Bc55btsLtj/A4hQXMjV+kEnsNe/YXONzTcZfEwOJdG9ho/+7zDsDN7dK4Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEErsSi42o0LEhRqkNz4eiGStVLq7jcqPFoAHMwxIJxOyE9cSVfEx7QfOYLc9kUPiAw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eac425d2-ef2f-4d75-bb3c-50db6aef17ba",
+                            SecurityStamp = "8bec8f6c-64c1-496c-8939-5156900d685d",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -307,8 +307,10 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<int?>("AgentId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Available")
-                        .HasColumnType("bit");
+                    b.Property<string>("CarModel")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("CarNumber")
                         .IsRequired()
@@ -330,15 +332,13 @@ namespace PMRentACarII.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Make")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
 
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("money");
@@ -350,6 +350,8 @@ namespace PMRentACarII.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
 
                     b.HasIndex("CategoryId");
 
@@ -363,14 +365,14 @@ namespace PMRentACarII.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Available = true,
+                            CarModel = "Accord",
                             CarNumber = "A3200KC",
                             CategoryId = 5,
                             Description = "A very comfortable and reliable car",
                             DriverId = 1,
                             ImageUrl = "https://imageio.forbes.com/specials-images/imageserve/6310cb2cbb908f077de4f565/0x0.jpg?format=jpg&width=1200",
+                            IsActive = true,
                             Make = "Honda",
-                            Model = "Accord",
                             PricePerDay = 30.00m,
                             RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             SeatCapacity = 5
@@ -378,14 +380,14 @@ namespace PMRentACarII.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            Available = true,
+                            CarModel = "X3",
                             CarNumber = "A3201KC",
                             CategoryId = 5,
                             Description = "Traditionally, sports sedans have been the vehicles that best projected the spirit of the BMW brand. Not so much anymore.",
                             DriverId = 2,
                             ImageUrl = "https://hips.hearstapps.com/hmg-prod/images/2022-bmw-x3-m40i-108-1650211641.jpg?crop=0.582xw:0.490xh;0.186xw,0.387xh&resize=1200:*",
+                            IsActive = true,
                             Make = "BMW",
-                            Model = "X3",
                             PricePerDay = 60.00m,
                             SeatCapacity = 5
                         });
@@ -447,16 +449,17 @@ namespace PMRentACarII.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Available")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("DriverCategory")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<int?>("AgentId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("DriverPrice")
                         .HasColumnType("money");
+
+                    b.Property<string>("DriversCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HirerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -468,6 +471,10 @@ namespace PMRentACarII.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("HirerId");
+
                     b.ToTable("Drivers");
 
                     b.HasData(
@@ -475,9 +482,8 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 1,
                             Age = 30,
-                            Available = true,
-                            DriverCategory = "Expert",
                             DriverPrice = 30.00m,
+                            DriversCategory = "Expert",
                             Name = "Hose",
                             YearsOfExperience = 11
                         },
@@ -485,9 +491,8 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 2,
                             Age = 32,
-                            Available = true,
-                            DriverCategory = "Professional Driver",
                             DriverPrice = 60.00m,
+                            DriversCategory = "Intermediate",
                             Name = "Peter",
                             YearsOfExperience = 11
                         },
@@ -495,9 +500,8 @@ namespace PMRentACarII.Infrastructure.Migrations
                         {
                             Id = 3,
                             Age = 29,
-                            Available = true,
-                            DriverCategory = "Lad",
                             DriverPrice = 20.00m,
+                            DriversCategory = "New driver",
                             Name = "Mark",
                             YearsOfExperience = 7
                         });
@@ -631,6 +635,10 @@ namespace PMRentACarII.Infrastructure.Migrations
 
             modelBuilder.Entity("PMRentACar.Infrastructure.Data.Car", b =>
                 {
+                    b.HasOne("PMRentACar.Infrastructure.Data.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId");
+
                     b.HasOne("PMRentACar.Infrastructure.Data.Category", "Category")
                         .WithMany("Cars")
                         .HasForeignKey("CategoryId")
@@ -645,11 +653,28 @@ namespace PMRentACarII.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("RenterId");
 
+                    b.Navigation("Agent");
+
                     b.Navigation("Category");
 
                     b.Navigation("Driver");
 
                     b.Navigation("Renter");
+                });
+
+            modelBuilder.Entity("PMRentACar.Infrastructure.Data.Driver", b =>
+                {
+                    b.HasOne("PMRentACar.Infrastructure.Data.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Hirer")
+                        .WithMany()
+                        .HasForeignKey("HirerId");
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Hirer");
                 });
 
             modelBuilder.Entity("PMRentACar.Infrastructure.Data.Rent", b =>

@@ -21,5 +21,7 @@ namespace PMRentACarII.Core.Contracts
             DriverSorting sorting = DriverSorting.Years,
             int currentPage = 1,
             int carsPerPage = 1);
+
+        Task<int> CreateDriver(DriverModel model, int agentId);
     }
 }

@@ -1,0 +1,17 @@
+﻿@model DriverServiceViewModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Driver Image">
+        <div class="card-body text-center">
+            <h4>@Model.Name</h4>
+            <h6>Years of experience: <b>@Model.YearsExperience</b></h6>
+            <h6>
+                Price Per Day:
+                <b>@String.Format("{0:f2}", Model.PricePerDay) BGN</b>
+            </h6>
+            <h6>(@(Model.IsHired ? "Hired" : "Available"))</h6>
+            <br />
+        </div>
+    </div>
+</div>

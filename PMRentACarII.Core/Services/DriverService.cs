@@ -34,7 +34,7 @@ namespace PMRentACarII.Core.Services
             if (string.IsNullOrEmpty(category) == false)
             {
                 drivers = drivers
-                    .Where(d => d.DriverCategory == category);
+                    .Where(d => d.DriversCategory == category);
             }
 
             if (string.IsNullOrEmpty(searchTerm) == false)
@@ -70,6 +70,25 @@ namespace PMRentACarII.Core.Services
             result.TotalDrivers = await drivers.CountAsync();
 
             return result;
+        }
+
+        public async Task<int> CreateDriver(DriverModel model, int agentId)
+        {
+            var driver = new Driver()
+            {
+                Id = model.Id,
+                Age = model.Age,
+                DriversCategory = model.DriverCategory,
+                DriverPrice = model.PricePerDay,
+                Name = model.Name,
+                YearsOfExperience = model.YearsExperience,
+                AgentId = agentId
+            };
+
+            await repo.AddAsync(driver);
+            await repo.SaveChangesAsync();
+
+            return driver.Id;
         }
 
         public async Task Hire(int driverId, string currentUserId)

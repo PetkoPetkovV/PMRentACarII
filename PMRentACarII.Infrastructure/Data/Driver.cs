@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PMRentACar.Infrastructure.Data.Constants;
+using PMRentACarII.Infrastructure.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,9 +34,7 @@ namespace PMRentACar.Infrastructure.Data
         /// <summary>
         /// driver's category (safari, gid, etc...)
         /// </summary>
-        [Required]
-        [StringLength(DriverConstants.DriverCategoryMaxLength)]
-        public string DriverCategory { get; set; } = null!;
+        public string? DriversCategory { get; set; } = null;
         /// <summary>
         /// driver's services price per day
         /// </summary>
@@ -48,6 +47,10 @@ namespace PMRentACar.Infrastructure.Data
         public string? HirerId { get; set; }
         [ForeignKey(nameof(HirerId))]
         public IdentityUser? Hirer { get; set; }
+
+        public int? AgentId { get; set; }
+        [ForeignKey(nameof(AgentId))]
+        public Agent? Agent { get; set; }
 
     }
 }
