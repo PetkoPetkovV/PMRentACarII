@@ -71,5 +71,23 @@ namespace PMRentACarII.Controllers
 
             return RedirectToAction(nameof(AllDrivers), new { id });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Release(int id)
+        {
+            if ((await driverService.IsHired(id)) == false)
+            {
+                return RedirectToAction(nameof(AllDrivers));
+            }
+
+            if (await driverService.IsHiredByUserWithId(id, User.Id()) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await driverService.Release(id);
+
+            return RedirectToAction(nameof(AllDrivers));
+        }
     }
 }

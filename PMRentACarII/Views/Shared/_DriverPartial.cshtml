@@ -19,6 +19,13 @@
                         <input class="btn btn-primary" type="submit" value="Hire" />
                     </form>
                 }
+                  else
+                {
+                    <form asp-controller="Driver" asp-action="Release"
+                  asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Release" />
+                    </form>
+                }
         </div>
     </div>
 </div>

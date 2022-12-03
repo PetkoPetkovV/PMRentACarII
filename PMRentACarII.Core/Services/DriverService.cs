@@ -127,5 +127,15 @@ namespace PMRentACarII.Core.Services
 
             return result;
         }
+
+        public async Task Release(int driverId)
+        {
+            var driver = await repo.GetByIdAsync<Driver>(driverId);
+
+            guard.AgainstNull(driver, "Driver cannot be found");
+
+            driver.HirerId = null;
+            await repo.SaveChangesAsync();
+        }
     }
 }

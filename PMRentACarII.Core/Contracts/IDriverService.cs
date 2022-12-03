@@ -23,5 +23,7 @@ namespace PMRentACarII.Core.Contracts
             int carsPerPage = 1);
 
         Task<int> CreateDriver(DriverModel model, int agentId);
+
+        Task Release(int driverId);
     }
 }
