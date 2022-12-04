@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PMRentACarII.Areas.Admin;
 using PMRentACarII.Core.Contracts;
 using PMRentACarII.Models;
 using System.Diagnostics;
@@ -15,6 +16,11 @@ namespace PMRentACarII.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole(AdminConstants.AdminRoleName))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+
             var model = await carService.NewestCars();
 
             return View(model);

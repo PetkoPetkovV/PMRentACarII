@@ -1,4 +1,6 @@
+
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMRentACarII.Infrastructure.Data;
 
@@ -18,7 +20,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options => 
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
+
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
@@ -41,9 +47,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "Areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+        name: "Car Details",
+        pattern: "/Car/Details/{id}/{information}",
+        defaults: new { Controller = "Car", Action = "Details" });
+
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
 
 app.Run();

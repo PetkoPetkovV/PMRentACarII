@@ -20,4 +20,8 @@
     <ProjectReference Include="..\PMRentACarII.Core\PMRentACarII.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>
