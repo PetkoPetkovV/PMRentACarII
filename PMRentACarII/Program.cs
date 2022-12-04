@@ -50,8 +50,13 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
+       name: "carDetails",
+       pattern: "Car/Details/{id}/{information}");
+
+    endpoints.MapControllerRoute(
         name: "Areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
     endpoints.MapControllerRoute(
         name: "Car Details",
         pattern: "/Car/Details/{id}/{information}",

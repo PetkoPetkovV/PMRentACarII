@@ -268,7 +268,8 @@ namespace PMRentACarII.Core.Services
                 {
                     Id = c.Id,
                     Title = c.Make,
-                    ImageUrl = c.ImageUrl
+                    ImageUrl = c.ImageUrl,
+                    CarsModel = c.CarModel,
                 })
                 .Take(3)
                 .ToListAsync();

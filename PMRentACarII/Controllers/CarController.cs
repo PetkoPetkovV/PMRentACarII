@@ -4,6 +4,7 @@ using PMRentACarII.Core.Contracts;
 using PMRentACarII.Core.Models.Car;
 using PMRentACarII.Extensions;
 using PMRentACarII.Models;
+using PMRentACarII.Core.Extensions;
 
 namespace PMRentACarII.Controllers
 {
@@ -58,7 +59,7 @@ namespace PMRentACarII.Controllers
             return View(myCars);
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string information)
         {
             if (await carService.Exists(id) == false)
             {
@@ -66,6 +67,13 @@ namespace PMRentACarII.Controllers
             }
 
             var model = await carService.CarDetailsById(id);
+
+            if (information != model.GetInformation())
+            {
+                TempData["ErrorMessage"] = "Nice try!";
+
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(model);
         }
