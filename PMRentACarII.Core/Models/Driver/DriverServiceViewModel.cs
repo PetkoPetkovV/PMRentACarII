@@ -21,7 +21,7 @@ namespace PMRentACarII.Core.Models.Driver
 
         [Display(Name = "Years of experience")]
         public int YearsExperience { get; set; }
-        [Display(Name = "Driver's Image")]
+        [Display(Name = "Driver Image")]
         public string ImageUrl { get; set; } = null!;
     }
 }

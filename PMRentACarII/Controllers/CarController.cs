@@ -236,7 +236,7 @@ namespace PMRentACarII.Controllers
                 return RedirectToAction(nameof(AllCars));
             }
 
-            if (await agentService.ExistsById(User.Id()))
+            if (await agentService.ExistsById(User.Id()) == false)
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }

@@ -81,6 +81,7 @@ namespace PMRentACarII.Core.Services
                 DriversCategory = model.DriverCategory,
                 DriverPrice = model.PricePerDay,
                 Name = model.Name,
+                ImageUrl = model.ImageUrl,
                 YearsOfExperience = model.YearsExperience,
                 AgentId = agentId
             };

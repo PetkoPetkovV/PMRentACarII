@@ -40,9 +40,6 @@ namespace PMRentACar.Infrastructure.Data
         /// </summary>
         [Column(TypeName = "money")]
         public decimal DriverPrice { get; set; }
-        /// <summary>
-        /// checking if the driver is already taken
-        /// </summary>
 
         public string? HirerId { get; set; }
         [ForeignKey(nameof(HirerId))]
@@ -51,6 +48,9 @@ namespace PMRentACar.Infrastructure.Data
         public int? AgentId { get; set; }
         [ForeignKey(nameof(AgentId))]
         public Agent? Agent { get; set; }
+
+        public string? ImageUrl { get; set; }
+
 
     }
 }
