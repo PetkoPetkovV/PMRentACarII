@@ -18,6 +18,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:RequireNonAlphanumeric");
     options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail");
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews(options => 
@@ -54,11 +55,11 @@ app.UseEndpoints(endpoints =>
        pattern: "Car/Details/{id}/{information}");
 
     endpoints.MapControllerRoute(
-        name: "Areas",
+        name: "areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
-        name: "Car Details",
+        name: "CarDetails",
         pattern: "/Car/Details/{id}/{information}",
         defaults: new { Controller = "Car", Action = "Details" });
 

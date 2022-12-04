@@ -70,9 +70,8 @@ namespace PMRentACarII.Controllers
 
             if (information != model.GetInformation())
             {
-                TempData["ErrorMessage"] = "Nice try!";
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 
-                return RedirectToAction("Index", "Home");
             }
 
             return View(model);
@@ -117,7 +116,7 @@ namespace PMRentACarII.Controllers
 
             int id = await carService.Create(model, agentId);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -192,7 +191,7 @@ namespace PMRentACarII.Controllers
 
             await carService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Details), new { model.Id });
+            return RedirectToAction(nameof(Details), new {id = model.Id, information = model.GetInformation() });
         }
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

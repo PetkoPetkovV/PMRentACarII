@@ -1,4 +1,5 @@
 ﻿using PMRentACar.Infrastructure.Data.Constants;
+using PMRentACarII.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PMRentACarII.Core.Models.Car
 {
-    public class CarModel
+    public class CarModel : ICarModel
     {
         public int Id { get; set; }
 

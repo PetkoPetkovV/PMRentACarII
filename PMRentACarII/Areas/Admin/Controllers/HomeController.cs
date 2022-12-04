@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PMRentACarII.Areas.Admin.Controllers
 {
-    public class HomeController : AdminController
+    [Area("Admin")]
+    [Route("Admin/[controller]/[Action]/{id?}")]
+    [Authorize(Roles = "Administrator")]
+    public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
     }
 }

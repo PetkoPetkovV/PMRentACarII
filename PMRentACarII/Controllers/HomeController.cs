@@ -16,9 +16,9 @@ namespace PMRentACarII.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            if (User.IsInRole(AdminConstants.AdminRoleName))
+            if (this.User.IsInRole(AdminConstants.AdminRoleName))
             {
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }
 
             var model = await carService.NewestCars();
