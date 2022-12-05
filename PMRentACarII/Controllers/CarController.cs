@@ -5,6 +5,7 @@ using PMRentACarII.Core.Models.Car;
 using PMRentACarII.Extensions;
 using PMRentACarII.Models;
 using PMRentACarII.Core.Extensions;
+using PMRentACarII.Areas.Admin;
 
 namespace PMRentACarII.Controllers
 {
@@ -42,6 +43,11 @@ namespace PMRentACarII.Controllers
 
         public async Task<IActionResult> Mine()
         {
+            if (User.IsInRole(AdminConstants.AdminRoleName))
+            {
+                return RedirectToAction("Mine", "Car", new { area = AdminConstants.AreaName });
+            }
+
             IEnumerable<CarServiceViewModel> myCars;
 
             var userId = User.Id();
@@ -243,7 +249,7 @@ namespace PMRentACarII.Controllers
                 return RedirectToAction(nameof(AllCars));
             }
 
-            if (await agentService.ExistsById(User.Id()) == false)
+            if (!User.IsInRole(AdminConstants.AdminRoleName) && await agentService.ExistsById(User.Id()))
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }

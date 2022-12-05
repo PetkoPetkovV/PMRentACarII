@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static PMRentACarII.Areas.Admin.AdminConstants;
 
 namespace PMRentACarII.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(AreaName)]
     [Route("Admin/[controller]/[Action]/{id?}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = AdminRoleName)]
     public class HomeController : Controller
-    {
-        
+    {   
     }
 }
