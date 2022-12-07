@@ -5,7 +5,7 @@ using PMRentACarII.Extensions;
 
 namespace PMRentACarII.Areas.Admin.Controllers
 {
-    public class CarController : HomeController
+    public class CarController : BaseController
     {
         private readonly ICarService carService;
         private readonly IAgentService agentService;

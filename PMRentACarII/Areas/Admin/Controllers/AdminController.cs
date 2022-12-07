@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace PMRentACarII.Areas.Admin.Controllers
 {
     
-    public class AdminController : HomeController
+    public class AdminController : BaseController
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

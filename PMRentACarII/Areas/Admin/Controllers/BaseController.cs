@@ -7,7 +7,7 @@ namespace PMRentACarII.Areas.Admin.Controllers
     [Area(AreaName)]
     [Route("Admin/[controller]/[Action]/{id?}")]
     [Authorize(Roles = AdminRoleName)]
-    public class HomeController : Controller
+    public class BaseController : Controller
     {   
     }
 }

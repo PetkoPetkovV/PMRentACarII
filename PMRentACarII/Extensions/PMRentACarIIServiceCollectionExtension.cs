@@ -1,6 +1,8 @@
 ﻿using PMRentACarII.Core.Contracts;
+using PMRentACarII.Core.Contracts.Admin;
 using PMRentACarII.Core.Exceptions;
 using PMRentACarII.Core.Services;
+using PMRentACarII.Core.Services.Admin;
 using PMRentACarII.Infrastructure.Data.Common;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -19,6 +21,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IGuard, Guard>();
             services.AddScoped<IDriverService, DriverService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdminDriverService, AdminDriverService>();
 
             return services;
         }

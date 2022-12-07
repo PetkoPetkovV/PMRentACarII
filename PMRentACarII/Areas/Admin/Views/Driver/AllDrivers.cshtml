@@ -1,0 +1,28 @@
+﻿@model IEnumerable<DriverServiceModel>
+
+@{
+    ViewBag.Title = "All Drivers";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>Name</label></th>
+            <th><label>Years of experience</label></th>
+           
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var driver in Model)
+        {
+            <tr>
+                <td><label>@driver.UserName</label></td>
+                <td><label>@driver.YearsOfExperience</label></td>
+            </tr>
+        }
+    </tbody>
+</table>
