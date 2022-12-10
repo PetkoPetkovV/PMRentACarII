@@ -23,7 +23,15 @@ namespace PMRentACarII.Core.Services
             repo = _repo;
             guard = _guard;
         }
-
+        /// <summary>
+        /// All cars
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="sorting"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="carsPerPage"></param>
+        /// <returns></returns>
         public async Task<CarsViewModel> AllCars(string? category = null, string? searchTerm = null, CarSorting sorting = CarSorting.Newest, int currentPage = 1, int carsPerPage = 1)
         {
             var result = new CarsViewModel();
@@ -74,7 +82,11 @@ namespace PMRentACarII.Core.Services
 
             return result;
         }
-
+        /// <summary>
+        /// all cars by agent with Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CarServiceViewModel>> AllCarsByAgentId(int id)
         {
             return await repo.AllReadonly<Car>()
@@ -91,7 +103,11 @@ namespace PMRentACarII.Core.Services
                 })
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// All cars by user with Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CarServiceViewModel>> AllCarsByUserId(string userId)
         {
             return await repo.AllReadonly<Car>()
@@ -108,7 +124,10 @@ namespace PMRentACarII.Core.Services
                 })
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// showing all categories names
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<string>> AllCategoriesNames()
         {
             return await repo.AllReadonly<Category>()
@@ -116,7 +135,11 @@ namespace PMRentACarII.Core.Services
                 .Distinct()
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// Car Details by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<CarDetailsViewModel> CarDetailsById(int id)
         {
             return await repo.AllReadonly<Car>()
@@ -141,7 +164,12 @@ namespace PMRentACarII.Core.Services
             return await repo.AllReadonly<Category>()
                 .AnyAsync(c => c.Id == categoryId);
         }
-
+        /// <summary>
+        /// creating car
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
         public async Task<int> Create(CarModel model, int agentId)
         {
             var car = new Car()
@@ -163,7 +191,11 @@ namespace PMRentACarII.Core.Services
 
             return car.Id;
         }
-
+        /// <summary>
+        /// delete car by setting IsActive to false(marking it)
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task Delete(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
@@ -171,7 +203,12 @@ namespace PMRentACarII.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// edit car
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task Edit(int carId, CarModel model)
         {
             
@@ -189,13 +226,20 @@ namespace PMRentACarII.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// checking if the car with Id exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Car>()
                  .AnyAsync(c => c.Id == id && c.IsActive);
         }
-
+        /// <summary>
+        /// getting list of All categories
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CarCategoryViewModel>> GetAllCategories()
         {
             return await repo.AllReadonly<Category>()
@@ -212,7 +256,12 @@ namespace PMRentACarII.Core.Services
         {
             return (await repo.GetByIdAsync<Car>(carId)).CategoryId; // returns directly the category
         }
-
+        /// <summary>
+        /// checking if the car is added by agent with Id
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
         public async Task<bool> HasAgentWithId(int carId, string currentUserId)
         {
             bool result = false;
@@ -231,12 +280,21 @@ namespace PMRentACarII.Core.Services
             return result;
 
         }
-
+        /// <summary>
+        /// checking if the car is rented
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task<bool> IsRented(int carId)
         {
             return (await repo.GetByIdAsync<Car>(carId)).RenterId != null;
         }
-
+        /// <summary>
+        /// checking if the car is rented by user with Id
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
         public async Task<bool> IsRentedByUserWithId(int carId, string currentUserId)
         {
             bool result = false;
@@ -274,7 +332,13 @@ namespace PMRentACarII.Core.Services
                 .Take(3)
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// rent a car by setting RenterId to currentUserId
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task Rent(int carId, string currentUserId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
@@ -290,7 +354,11 @@ namespace PMRentACarII.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Return car by setting RenterId to null
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task Return(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);

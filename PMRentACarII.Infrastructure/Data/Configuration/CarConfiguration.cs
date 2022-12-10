@@ -13,7 +13,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            builder.HasData(CreateCars());
+           // builder.HasData(CreateCars());
         }
 
         private List<Car> CreateCars()
