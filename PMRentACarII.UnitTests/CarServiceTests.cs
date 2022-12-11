@@ -31,7 +31,7 @@ namespace PMRentACarII.UnitTests
                 .Options;
 
             context = new ApplicationDbContext(contextOptions);
-           
+
 
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
@@ -92,7 +92,7 @@ namespace PMRentACarII.UnitTests
                 new Category{ Id = 2, Name = "b" },
                 new Category{ Id = 3, Name = "c" },
             });
-            
+
             await repo.SaveChangesAsync();
 
             int falseCategoryId = 4;
@@ -241,8 +241,154 @@ namespace PMRentACarII.UnitTests
 
             Assert.That(dbCar.RenterId, Is.EqualTo("Petko"));
             Assert.That(dbCar2.RenterId, Is.EqualTo("Petko"));
-            
+
         }
+        [Test]
+        public async Task TestHasAgentWithId()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            var agentService = new AgentService(repo);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = "Petko" },
+            });
+
+            await repo.SaveChangesAsync();
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+
+            var dbAgent = await repo.GetByIdAsync<Agent>(1);
+
+            await carService.HasAgentWithId(1, dbAgent.Id.ToString());
+
+            Assert.That(dbCar.AgentId, Is.EqualTo(dbAgent.Id));
+
+        }
+
+        [Test]
+        public async Task TestGetCarCategoryId_IfWorksProperly()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, CategoryId = 2 },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, CategoryId = 1 },
+            });
+
+            await repo.SaveChangesAsync();
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+
+            var carCategory = await carService.GetCarCategoryId(1);
+
+            Assert.That(dbCar.CategoryId, Is.EqualTo(carCategory));
+        }
+
+        [Test]
+        public async Task TestDeleteIfMarksProperCar()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, CategoryId = 2 },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, CategoryId = 1 },
+            });
+
+            await repo.SaveChangesAsync();
+
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+            var dbCar2 = await repo.GetByIdAsync<Car>(2);
+
+            await carService.Delete(dbCar.Id);
+
+            Assert.That(dbCar.IsActive, Is.EqualTo(false));
+            Assert.That(dbCar2.IsActive, Is.EqualTo(true));
+        }
+
+        [Test]
+        public async Task TestIsRented_IfWorksProperly()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, RenterId = "Petko" },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = null },
+            });
+
+            await repo.SaveChangesAsync();
+
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+            var dbCar2 = await repo.GetByIdAsync<Car>(2);
+
+            Assert.That(true, Is.EqualTo(await carService.IsRented(dbCar.Id)));
+            Assert.That(false, Is.EqualTo(await carService.IsRented(dbCar2.Id)));
+        }
+        [Test]
+        public async Task IsRentedByUserWithIdTestingIfWorksProperlyAndGetsTheRightUserWithCar()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, RenterId = "Petko" },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = "Petko" },
+            });
+
+            await repo.SaveChangesAsync();
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+            var dbCar2 = await repo.GetByIdAsync<Car>(2);
+
+            await carService.IsRentedByUserWithId(dbCar.Id, dbCar.RenterId);
+
+            Assert.That(dbCar.RenterId, Is.EqualTo("Petko"));
+            Assert.That(dbCar2.RenterId, Is.EqualTo("Petko"));
+
+
+        }
+
+        [Test]
+
+        public async Task TestRent_IfTheUserRentsTheProperCar()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, RenterId = null },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = "Petko" },
+            });
+
+            await repo.SaveChangesAsync();
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+
+            await carService.Rent(1, "Petko");
+            
+
+            Assert.That(dbCar.RenterId, Is.EqualTo("Petko"));
+        }
+
+        [Test]
+        public async Task TestReturnIfWorksProperly()
+        {
+            var repo = new Repository(context);
+            var carService = new CarService(repo, guard);
+            await repo.AddRangeAsync(new List<Car>()
+            {
+                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, RenterId = null },
+                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = "Petko" },
+            });
+
+            await repo.SaveChangesAsync();
+            var dbCar = await repo.GetByIdAsync<Car>(1);
+
+            await carService.Rent(1, "Petko");
+            await carService.Return(1);
+            Assert.That(dbCar.RenterId, Is.EqualTo(null));
+        }
+
 
         [TearDown]
         public void TearDown()
