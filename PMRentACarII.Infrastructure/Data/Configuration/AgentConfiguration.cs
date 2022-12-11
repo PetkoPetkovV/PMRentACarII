@@ -13,7 +13,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Agent> builder)
         {
-            builder.HasData(CreateAgents());
+            //builder.HasData(CreateAgents());
         }
 
         private List<Agent> CreateAgents()

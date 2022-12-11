@@ -363,11 +363,13 @@ namespace PMRentACarII.UnitTests
 
             await repo.SaveChangesAsync();
             var dbCar = await repo.GetByIdAsync<Car>(1);
+            var dbCar2 = await repo.GetByIdAsync<Car>(2);
 
             await carService.Rent(1, "Petko");
             
 
             Assert.That(dbCar.RenterId, Is.EqualTo("Petko"));
+            Assert.ThrowsAsync<ArgumentException>(async () => await carService.Rent(2, "Petko"));
         }
 
         [Test]
