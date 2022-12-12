@@ -249,20 +249,25 @@ namespace PMRentACarII.UnitTests
             var repo = new Repository(context);
             var carService = new CarService(repo, guard);
             var agentService = new AgentService(repo);
+            var agent = agentService.Create("Petko", "0885776323", "123@gmail.com");
             await repo.AddRangeAsync(new List<Car>()
             {
-                new Car() { Id = 1, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 1, },
-                new Car() { Id = 2, CarModel = "", CarNumber = "", Description = "", ImageUrl = "", Make = "", AgentId = 2, RenterId = "Petko" },
+                new Car() 
+                { 
+                    Id = 1, 
+                    CarModel = "", 
+                    CarNumber = "", 
+                    Description = "", 
+                    ImageUrl = "", 
+                    Make = "", 
+                    AgentId = agent.Id,
+                },
             });
 
             await repo.SaveChangesAsync();
             var dbCar = await repo.GetByIdAsync<Car>(1);
 
-            var dbAgent = await repo.GetByIdAsync<Agent>(1);
-
-            await carService.HasAgentWithId(1, dbAgent.Id.ToString());
-
-            Assert.That(dbCar.AgentId, Is.EqualTo(dbAgent.Id));
+            Assert.That(await carService.HasAgentWithId(1, "Petko"), Is.True);
 
         }
 
