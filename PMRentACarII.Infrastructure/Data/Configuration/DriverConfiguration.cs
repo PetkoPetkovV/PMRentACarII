@@ -13,7 +13,7 @@ namespace PMRentACarII.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Driver> builder)
         {
-            builder.HasData(CreateDrivers());
+           // builder.HasData(CreateDrivers());
         }
 
         private List<Driver> CreateDrivers()
