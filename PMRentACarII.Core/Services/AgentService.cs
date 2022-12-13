@@ -13,7 +13,13 @@ namespace PMRentACarII.Core.Services
         {
             repo = _repo;
         }
-
+        /// <summary>
+        /// creating new agent
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task Create(string userId, string phoneNumber, string email)
         {
             var agent = new Agent()
@@ -47,13 +53,21 @@ namespace PMRentACarII.Core.Services
            return (await repo.AllReadonly<Agent>()
                 .FirstOrDefaultAsync(a => a.UserId == userId))?.Id ?? 0;
         }
-
+        /// <summary>
+        /// checking if a user with that phone number already exists
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
         public async Task<bool> UserWithPhoneNumberExists(string phoneNumber)
         {
             return await repo.All<Agent>()
                  .AnyAsync(a => a.PhoneNumber == phoneNumber);
         }
-
+        /// <summary>
+        /// checking if user with this email already exists
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<bool> UserWithThatEmailExists(string email)
         {
             return await repo.All<Agent>()

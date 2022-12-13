@@ -94,6 +94,41 @@ namespace PMRentACarII.UnitTests
             Assert.That(await agentService.UserWithThatEmailExists("asd@gmaill.com"), Is.False);
         }
 
+        [Test]
+        public async Task TestCreate_IfWorksProperly()
+        {
+            var repo = new Repository(context);
+            var agentService = new AgentService(repo);
+            await repo.AddRangeAsync(new List<Agent>()
+            {
+                new Agent(){Id = 1, Email = "", PhoneNumber = "", UserId = "Petko"}
+            });
+
+            await repo.SaveChangesAsync();
+
+            await agentService.Create("John", "0884882312", "g@gmail.com");
+            var dbAgent = await repo.GetByIdAsync<Agent>(2);
+
+            Assert.That(dbAgent.UserId, Is.EqualTo("John"));
+            Assert.That(dbAgent.Email, Is.EqualTo("g@gmail.com"));
+            Assert.That(dbAgent.PhoneNumber, Is.EqualTo("0884882312"));
+        }
+
+        [Test]
+        public async Task GetAgentIdTest_IfGetsTheRightAgent()
+        {
+            var repo = new Repository(context);
+            var agentService = new AgentService(repo);
+            await repo.AddRangeAsync(new List<Agent>()
+            {
+                new Agent(){Id = 1, Email = "", PhoneNumber = "", UserId = "Petko"}
+            });
+
+            await repo.SaveChangesAsync();
+
+            Assert.That(await agentService.GetAgentId("Petko"), Is.EqualTo(1));
+        }
+
         [TearDown]
         public void TearDown()
         {

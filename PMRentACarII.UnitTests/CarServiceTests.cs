@@ -243,6 +243,10 @@ namespace PMRentACarII.UnitTests
             Assert.That(dbCar2.RenterId, Is.EqualTo("Petko"));
 
         }
+        /// <summary>
+        /// this test must be runned twice(because of the services used)
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task TestHasAgentWithId()
         {
