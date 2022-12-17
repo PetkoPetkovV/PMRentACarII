@@ -8,6 +8,12 @@ namespace PMRentACarII.Core.Exceptions
 {
     public class Guard : IGuard
     {
+        /// <summary>
+        /// guard against null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="errorMessage"></param>
         public void AgainstNull<T>(T value, string? errorMessage = null)
         {
             if (value == null)
