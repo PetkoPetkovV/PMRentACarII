@@ -20,7 +20,10 @@ namespace PMRentACarII.Core.Services.Admin
         {
             repo = _repo;
         }
-
+        /// <summary>
+        /// all Drivers as admin
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<DriverServiceModel>> AllDrivers()
         {
             List<DriverServiceModel> drivers;

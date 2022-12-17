@@ -20,7 +20,10 @@ namespace PMRentACarII.Core.Services.Admin
         {
             repo = _repo;
         }
-
+        /// <summary>
+        /// AllUsers as admin
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<UserServiceModel>> AllUsers()
         {
             List<UserServiceModel> result;
