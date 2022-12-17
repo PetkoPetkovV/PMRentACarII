@@ -8,7 +8,11 @@ namespace PMRentACarII.Controllers
 {
     [Authorize]
     public class AgentController : Controller
+        
     {
+        /// <summary>
+        /// Injectiong agentService
+        /// </summary>
         private readonly IAgentService agentService;
 
         public AgentController(IAgentService _agentService)

@@ -23,7 +23,15 @@ namespace PMRentACarII.Core.Services
             repo = _repo;
             guard = _guard;
         }
-
+        /// <summary>
+        /// getting All drivers by filtering them
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="sorting"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="driversPerPage"></param>
+        /// <returns></returns>
         public async Task<DriversViewModel> AllDrivers(string? category = null, string? searchTerm = null, DriverSorting sorting = DriverSorting.Years, int currentPage = 1, int driversPerPage = 1)
         {
             var result = new DriversViewModel();
@@ -71,7 +79,12 @@ namespace PMRentACarII.Core.Services
 
             return result;
         }
-
+        /// <summary>
+        /// Creating driver
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
         public async Task<int> CreateDriver(DriverModel model, int agentId)
         {
             var driver = new Driver()
@@ -91,7 +104,13 @@ namespace PMRentACarII.Core.Services
 
             return driver.Id;
         }
-
+        /// <summary>
+        /// Hire a driver by Id
+        /// </summary>
+        /// <param name="driverId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task Hire(int driverId, string currentUserId)
         {
             var driver = await repo.GetByIdAsync<Driver>(driverId);
@@ -107,12 +126,21 @@ namespace PMRentACarII.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// checking if the driver is already hired
+        /// </summary>
+        /// <param name="dirverId"></param>
+        /// <returns></returns>
         public async Task<bool> IsHired(int dirverId)
         {
             return (await repo.GetByIdAsync<Driver>(dirverId)).HirerId != null;
         }
-
+        /// <summary>
+        /// checking if the driver is hired by the current user
+        /// </summary>
+        /// <param name="driverId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
         public async Task<bool> IsHiredByUserWithId(int driverId, string currentUserId)
         {
             bool result = false;
@@ -128,7 +156,11 @@ namespace PMRentACarII.Core.Services
 
             return result;
         }
-
+        /// <summary>
+        /// releasing driver by setting hirerId to null
+        /// </summary>
+        /// <param name="driverId"></param>
+        /// <returns></returns>
         public async Task Release(int driverId)
         {
             var driver = await repo.GetByIdAsync<Driver>(driverId);
