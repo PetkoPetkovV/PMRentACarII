@@ -23,6 +23,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IDriverService, DriverService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAdminDriverService, AdminDriverService>();
+            services.AddScoped<IRentService, RentService>();
+
 
             return services;
         }

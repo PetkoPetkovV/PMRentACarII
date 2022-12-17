@@ -1,0 +1,28 @@
+﻿@model IEnumerable<RentServiceModel>
+
+@{
+    ViewBag.Title = "All Rents";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>Car Name</label></th>
+            <th><label>Driver Name</label></th>
+           
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rent in Model)
+        {
+            <tr>
+                <td><label>@rent.CarName</label></td>
+                <td><label>@rent.DriverName</label></td>
+            </tr>
+        }
+    </tbody>
+</table>
